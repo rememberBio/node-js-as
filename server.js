@@ -48,6 +48,6 @@ server.use("/rp", rpRoutes);
 
 const port = config.PORT;
 
-server.listen(port, async() => {
+server.listen(process.env.PORT || 4000, async() => {
     console.log(`Server running at port: ${port}`);
 });
