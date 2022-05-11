@@ -70,9 +70,13 @@ const rememberPageSchema = new mongoose.Schema({
         grave: {
             images: [String],
             nameOfCemetery: String,
-            Address: String,
-            googleMapLink: String,
-            wazeLink: String
+            address: {
+                location: {
+                  lat: Number,
+                  lng: Number,
+                },
+                name:String,
+            },
         }
     }    
 });
