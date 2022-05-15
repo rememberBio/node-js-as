@@ -47,7 +47,7 @@ const rememberPageSchema = new mongoose.Schema({
             witnessName: String,
             date: Date
         }],
-        gallery: [{
+        gallery: {
             items: [{
                 startYear: String,
                 endYear: String,
@@ -59,7 +59,7 @@ const rememberPageSchema = new mongoose.Schema({
                     videos: [String]
                 }]
             }]
-        }],
+        },
         placesOfCommemoration: [{
             name: String,
             image: String,

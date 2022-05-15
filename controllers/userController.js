@@ -8,7 +8,7 @@ const createUser = async(req, res) => {
         const createdUser = await userService.createUser(user);
         return res.status(200).json(createdUser);
     } catch (err) {
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).send(err.message);
     }
 };
 
@@ -16,6 +16,16 @@ const getUserById = async(req, res) => {
     try {
         const id = req.params.id;
         const user = await userService.getUserById(id);
+        return res.status(200).json(user);
+    } catch (error) {
+        return res.status(200).json(user);
+    }
+}
+
+const getUserByEmail = async(req, res) => {
+    try {
+        const email = req.params.email;
+        const user = await userService.getUserByEmail(email);
         return res.status(200).json(user);
     } catch (error) {
         return res.status(200).json(user);
@@ -127,5 +137,6 @@ module.exports = {
     updateUser,
     updateUserStatus,
     createToken,
-    updatePassword
+    updatePassword,
+    getUserByEmail
 };

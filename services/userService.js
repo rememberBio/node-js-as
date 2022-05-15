@@ -2,17 +2,22 @@ const User = require("../models/user");
 
 //add new user to the users collection in the database
 const createUser = async(newUser) => {
-    try {
-        const userCreated = await User.create(newUser);
-        return userCreated;
-    } catch (error) {
-        console.log(error);
-    }
+    const userCreated = await User.create(newUser);
+    return userCreated;
 };
 // get user by _id
 const getUserById = async(id) => {
     try {
         return await User.findById(id);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+// get user by the unique email
+const getUserByEmail = async(email) => {
+    try {
+        return await User.findOne({ email: email });
     } catch (error) {
         console.log(error);
     }
@@ -71,5 +76,6 @@ module.exports = {
     getUsersList,
     updateUser,
     updateUserStatus,
-    updatePassword
+    updatePassword,
+    getUserByEmail
 };
