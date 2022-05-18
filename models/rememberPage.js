@@ -77,7 +77,8 @@ const rememberPageSchema = new mongoose.Schema({
                 },
                 name:String,
             },
-        }
+        },
+        addHebrewDate: Boolean
     }    
 });
 
