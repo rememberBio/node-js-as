@@ -1,3 +1,4 @@
+const { Error } = require("mongoose");
 const User = require("../models/user");
 
 //add new user to the users collection in the database
@@ -15,12 +16,12 @@ const getUserById = async(id) => {
 };
 
 // get user by the unique email
-const getUserByEmail = async(email) => {
-    try {
-        return await User.findOne({ email: email });
-    } catch (error) {
-        console.log(error);
-    }
+const getUserByEmailAndPassword = async(email,password) => {
+    let user =  await User.findOne({ email: email  });
+    if(user) {
+        if(user.checkPassword(password)) return user;
+        else throw new Error("The password is incorect");
+    } else throw new Error("There are no user with this email");
 };
 // remove user from the users collection by authorized user
 const deleteUser = async(user) => {
@@ -77,5 +78,5 @@ module.exports = {
     updateUser,
     updateUserStatus,
     updatePassword,
-    getUserByEmail
+    getUserByEmailAndPassword
 };

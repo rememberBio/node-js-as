@@ -46,6 +46,14 @@ const rpRoutes = require('./routes/rememberPageRouter');
 server.use("/user", userRoutes);
 server.use("/rp", rpRoutes);
 
+//s3
+const multer = require('multer');
+server.use(multer({
+    limits: { fieldSize: 2 * 1024 * 1024 * 1024 }
+}).any());
+const s3Api = require("./services/s3Service");
+server.use("/files", s3Api);
+
 const port = config.PORT;
 
 server.listen(process.env.PORT || 4000, async() => {

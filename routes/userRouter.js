@@ -10,10 +10,11 @@ router.get("/deleteUser", userController.deleteUser);
 router.get("/getUserById/:id", userController.getUserById);
 router.get("/getUsers", userController.getUsersList);
 router.post("/updateUser", userController.updateUser);
-router.get("/getUserByEmail/:email", userController.getUserByEmail);
+
 
 //a routs that need admin token
 router.use(checkIfAdminIsAuth);
+router.get("/getUserByEmailAndPassword/:email/:password", userController.getUserByEmailAndPassword);
 router.post("/createUser", userController.createUser);
 router.post("/createToken", userController.createToken);
 router.post("/updatePassword", userController.updatePassword);

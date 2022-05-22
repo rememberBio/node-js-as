@@ -22,13 +22,14 @@ const getUserById = async(req, res) => {
     }
 }
 
-const getUserByEmail = async(req, res) => {
+const getUserByEmailAndPassword = async(req, res) => {
     try {
         const email = req.params.email;
-        const user = await userService.getUserByEmail(email);
+        const password = req.params.password;
+        const user = await userService.getUserByEmailAndPassword(email,password);
         return res.status(200).json(user);
     } catch (error) {
-        return res.status(200).json(user);
+        return res.status(500).send(error.message);
     }
 }
 const deleteUser = async(req, res) => {
@@ -138,5 +139,5 @@ module.exports = {
     updateUserStatus,
     createToken,
     updatePassword,
-    getUserByEmail
+    getUserByEmailAndPassword
 };
