@@ -110,13 +110,12 @@ const login = async (req, res, next) => {
 const createToken = async(req, res, next) => {
     passport.authenticate('local',
         async (err, user, info) => {
-  
         if (err) {
-        return next(err);
+            return next(err);
         }
 
         if (!user) {
-        return res.sendStatus(401);
+            return res.sendStatus(401);
         }
       //create token
       const token = jwt.sign(

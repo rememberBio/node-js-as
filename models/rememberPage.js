@@ -4,15 +4,16 @@ const Schema = mongoose.Schema;
 const rememberPageSchema = new mongoose.Schema({
     wpPostId: String,
     link: String,
+    status: String, //in progress,complete
     pageManager: {type: Schema.Types.ObjectId , ref: 'User' },
     editors: [{type: Schema.Types.ObjectId , ref: 'User' }],
     watchedPeoples: [{
         name: String,
-        email:{ type: mongoose.Schema.Types.String, unique: true, required: true },
+        email:{ type: String},
         phone: { type: String }
     }],
     candlesAndFlowers:[{
-        type: String, //candle/flower
+        kind: String, //candle/flower
         nameOfSender: String,
         message: String
     }],
@@ -22,14 +23,14 @@ const rememberPageSchema = new mongoose.Schema({
         brief: String, //short description about people
         about: String,
         dateOfBirth: Date,
-        dateOdDeath: Date,
+        dateOfDeath: Date,
         country: String,
         parents: [{
             name: String,
             rememberPageLink: String
         }],
         spouse: {
-            type: String, // wife/husband
+            kind: String, // wife/husband
             name: String,
             rememberPageLink: String
         },

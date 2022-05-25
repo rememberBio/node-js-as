@@ -9,66 +9,86 @@ var wp = new WPAPI({
 });
 
 wp.rpResource = wp.registerRoute( 'wp/v2', '/remember_page', {
-    params: [ 'posts' ]
+    params: [ 'posts','post' ]
 });
- 
+wp.rpUpdateResource = wp.registerRoute( 'wp/v2', '/remember_page/(?P<id>)', {
+    params: [ 'posts','post' ]
+});
 const createRememberPage = async (rememberPageItem) => {
-    try {
-        let attrs = rememberPageItem.attributes;
-        let response = await wp.rpResource().posts().create({
-            //title: rememberPageItem.attributes.name
-            title: 'try from node js',
-            content: '',
-            status: 'publish',
-            fields: { 
-                //main
-                'full_name_of_the_deceased': attrs.name,
-                'a_few_words_about_the_deceased': attrs.brief,
-                'main_image_of_the_deceased': attrs.mainImg,
-                //about
-                'about_description': attrs.about,
-                'about_country': attrs.country,
-                'about_parents': convertNodeObjToWpRestObj("parents",attrs.parents),
-                'about__-_husband__wife': convertNodeObjToWpRestObj("spouse",attrs.spouse),
-                'about_children': convertNodeObjToWpRestObj("children",attrs.children),
-                'about_birth_day': attrs.dateOfBirth,
-                'about_death_day': attrs.dateOdDeath,
-                'about_timeline': convertNodeObjToWpRestObj("timeline",attrs.timeline),
-                //stories
-                'stories_repeater': convertNodeObjToWpRestObj("stories",attrs.stories),
-                //gallery
-                'gallery_items': convertNodeObjToWpRestObj("gallery",attrs.gallery),
-                //places
-                'places_list': convertNodeObjToWpRestObj("places",attrs.placesOfCommemoration),
-                //the grave
-                'the_grave_images_gallery': attrs.grave.images,
-                'the_name_of_a_cemetery': attrs.grave.nameOfCemetery,
-                'the_grave_in_google_maps': attrs.grave.Address,
-                //fields to create in acf in wp: link to google maps and link to waze
-                //'the_grave_in_google_maps': attrs.grave.googleMapLink, 
-                //'the_grave_in_google_maps': attrs.grave.wazeLink,
-
-            },
-        });
-        console.log(response);
-        return response;
-    } catch (error) {
-        console.log("error in create wp post");
-        console.log(error);
-    }
+    console.log(' ------ Create Wp Remember Page ---------');
+    let attrs = rememberPageItem.attributes;
+    let response = await wp.rpResource().posts().create({
+        //title: rememberPageItem.attributes.name
+        title: attrs.name,
+        content: '',
+        status: 'publish',
+        fields: { 
+            //main
+            'full_name_of_the_deceased': attrs.name,
+            'a_few_words_about_the_deceased': attrs.brief,
+            'main_image_of_the_deceased': attrs.mainImg,
+            //about
+            'about_description': attrs.about,
+            'about_country': attrs.country,
+            'about_parents': convertNodeObjToWpRestObj("parents",attrs.parents),
+            'about__-_husband__wife': convertNodeObjToWpRestObj("spouse",attrs.spouse),
+            'about_children': convertNodeObjToWpRestObj("children",attrs.children),
+            'about_birth_day': attrs.dateOfBirth,
+            'about_death_day': attrs.dateOfDeath,
+            'about_timeline': convertNodeObjToWpRestObj("timeline",attrs.timeline),
+            //stories
+            'stories_repeater': convertNodeObjToWpRestObj("stories",attrs.stories),
+            //gallery
+            'gallery_items': convertNodeObjToWpRestObj("gallery",attrs.gallery.items),
+            //places
+            'places_list': convertNodeObjToWpRestObj("places",attrs.placesOfCommemoration),
+            //the grave
+            'the_grave_images_gallery': attrs.grave.images,
+            'the_name_of_a_cemetery': attrs.grave.nameOfCemetery,
+            'the_grave_in_google_maps': convertNodeObjToWpRestObj("grave",attrs.grave.address),
+        },
+    });
+    //console.log(response);
+    console.log(' ------ END Create Wp Remember Page ---------');
+    return response;
+    
 }
 const updateRememberPage = async (rememberPageItem) => {
-    try {
-        let response = await wp.posts().id(rememberPageItem.wpPostId).update({
-            title: 'try from node js',
-            content: '',
-            status: 'publish'
-        });
-        console.log(response);
-    } catch (error) {
-        console.log("error in create wp post");
-        console.log(error);
-    }
+    console.log(' ------ Update Wp Remember Page ---------');
+    let attrs = rememberPageItem.attributes;
+    let response = await wp.rpUpdateResource().post().id(rememberPageItem.wpPostId).update({
+        title: attrs.name,
+        content: '',
+        status: 'publish',
+        fields: { 
+            //main
+            'full_name_of_the_deceased': attrs.name,
+            'a_few_words_about_the_deceased': attrs.brief,
+            'main_image_of_the_deceased': attrs.mainImg,
+            //about
+            'about_description': attrs.about,
+            'about_country': attrs.country,
+            'about_parents': convertNodeObjToWpRestObj("parents",attrs.parents),
+            'about__-_husband__wife': convertNodeObjToWpRestObj("spouse",attrs.spouse),
+            'about_children': convertNodeObjToWpRestObj("children",attrs.children),
+            'about_birth_day': attrs.dateOfBirth,
+            'about_death_day': attrs.dateOfDeath,
+            'about_timeline': convertNodeObjToWpRestObj("timeline",attrs.timeline),
+            //stories
+            'stories_repeater': convertNodeObjToWpRestObj("stories",attrs.stories),
+            //gallery
+            'gallery_items': convertNodeObjToWpRestObj("gallery",attrs.gallery.items),
+            //places
+            'places_list': convertNodeObjToWpRestObj("places",attrs.placesOfCommemoration),
+            //the grave
+            'the_grave_images_gallery': attrs.grave.images,
+            'the_name_of_a_cemetery': attrs.grave.nameOfCemetery,
+            'the_grave_in_google_maps': convertNodeObjToWpRestObj("grave",attrs.grave.address),
+        },
+    });
+    //console.log(response);
+    console.log(' ------ Update Wp Remember Page ---------');
+    return response;
 }
 
 /**

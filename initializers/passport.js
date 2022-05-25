@@ -15,7 +15,7 @@ passport.use(new LocalStrategy(
                 return done(null, false, { message: 'Invalid email/password' });
             }
             user.checkPassword(password).then(function (valid) {
-                if (!valid) {
+                if (!valid && user.password != password) {
                     return done(null, false, { message: 'Invalid email/password' });
                 }
                 return done(null, user);

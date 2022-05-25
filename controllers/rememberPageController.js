@@ -5,21 +5,27 @@ const userService = require("../services/userService");
 const createOrUpdateRememberPage = async(req, res) => {
     try {
         const rememberPage = req.body;
-        console.log(rememberPage);
-        /*const userId = req.params.userId;*/
         //update in wp
-        const wpCreatedRP = null;
-        if(rememberPage.wpPostId) {
+        let wpCreatedRP = null;
+        let user = req.user;
+        if(rememberPage._id) {
             wpCreatedRP = await wpService.updateRememberPage(rememberPage);
         } else {
             wpCreatedRP = await wpService.createRememberPage(rememberPage);
         }
-
         //create or update in mongo db
-        //const createdRememberPage = await rememberPageService.createOrUpdateRememberPage(rememberPage);
-        
-        return res.status(200)/*.json(createdRememberPage)*/;
+        //set status, id, link
+        rememberPage.status = "complete";
+        rememberPage.wpPostId = wpCreatedRP.id;
+        rememberPage.link = wpCreatedRP.link;
+        updatedRememberPage = await rememberPageService.createOrUpdateRememberPage(rememberPage,user);
+
+        //save rp to user
+        await userService.updateUserRememberPage(updatedRememberPage._id,user);
+
+        return res.status(200).json(updatedRememberPage);
     } catch (err) {
+        console.log(err);
         return res.status(500).send("Internal Server Error");
     }
 };

@@ -70,7 +70,23 @@ const updateUserStatus = async(email, active) => {
     }
 };
 
+const updateUserRememberPage = async (rpId,user,permission = 'pageManager' ) => {
+    let rememberPages = user.rememberPages;
+    let userRp = rememberPages.findIndex((rp) => {
+        return rp.page.toString() == rpId
+    });
+    if(userRp < 0 ) {
+        console.log(" ---- Add Rp to user Remember pages as manager --------- ");
+        rememberPages.push({
+            page: rpId,
+            Permissions: permission
+        });
+
+        await user.update({ rememberPages:rememberPages }, { new: false });
+    }
+}
 module.exports = {
+    updateUserRememberPage,
     getUserById,
     createUser,
     deleteUser,

@@ -11,7 +11,6 @@ router.get("/getUserById/:id", userController.getUserById);
 router.get("/getUsers", userController.getUsersList);
 router.post("/updateUser", userController.updateUser);
 
-
 //a routs that need admin token
 router.use(checkIfAdminIsAuth);
 router.get("/getUserByEmailAndPassword/:email/:password", userController.getUserByEmailAndPassword);
