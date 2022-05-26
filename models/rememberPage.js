@@ -77,6 +77,10 @@ const rememberPageSchema = new mongoose.Schema({
                   lng: Number,
                 },
                 name:String,
+                city: String,
+                country: String,
+                streetNumber: Number,
+                streetName: String
             },
         },
         addHebrewDate: Boolean

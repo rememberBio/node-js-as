@@ -64,7 +64,7 @@ const updateRememberPage = async (rememberPageItem) => {
             //main
             'full_name_of_the_deceased': attrs.name,
             'a_few_words_about_the_deceased': attrs.brief,
-            'main_image_of_the_deceased': attrs.mainImg,
+            'main_image_of_the_deceased_url': attrs.mainImg,
             //about
             'about_description': attrs.about,
             'about_country': attrs.country,
@@ -81,9 +81,9 @@ const updateRememberPage = async (rememberPageItem) => {
             //places
             'places_list': convertNodeObjToWpRestObj("places",attrs.placesOfCommemoration),
             //the grave
-            'the_grave_images_gallery': attrs.grave.images,
+            'the_grave_images_gallery_urls': convertNodeObjToWpRestObj('grave-images',attrs.grave.images),
             'the_name_of_a_cemetery': attrs.grave.nameOfCemetery,
-            'the_grave_in_google_maps': convertNodeObjToWpRestObj("grave",attrs.grave.address),
+            'the_grave_in_google_maps': convertNodeObjToWpRestObj("grave-address",attrs.grave.address),
         },
     });
     //console.log(response);
