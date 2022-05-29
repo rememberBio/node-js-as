@@ -44,8 +44,7 @@ const getUsersList = async() => {
 //update user details
 const updateUser = async(id, updateduser) => {
     try {
-        console.log(updateduser.password);
-        let user = await User.findByIdAndUpdate(id, updateduser, { new: false });
+        let user = await User.findByIdAndUpdate(id, updateduser, { new: true });
         return user;
     } catch (error) {
         console.log(error);
@@ -54,8 +53,7 @@ const updateUser = async(id, updateduser) => {
 //update user details
 const updatePassword = async(id, password) => {
     try {
-        let user = await User.findByIdAndUpdate(id, { password:password }, { new: false });
-        console.log(password);
+        let user = await User.findByIdAndUpdate(id, { password:password }, { new: true });
         return user;
     } catch (error) {
         console.log(error);
