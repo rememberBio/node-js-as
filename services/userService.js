@@ -73,8 +73,9 @@ const updateUserStatus = async(email, active) => {
 
 const updateUserRememberPage = async (rpId,user,permission = 'pageManager' ) => {
     let rememberPages = user.rememberPages;
+    if(!rememberPages) rememberPages = [];
     let userRp = rememberPages.findIndex((rp) => {
-        return rp.page.toString() == rpId
+        return rp.page&&rp.page.toString() == rpId
     });
     if(userRp < 0 ) {
         console.log(" ---- Add Rp to user Remember pages as manager --------- ");
