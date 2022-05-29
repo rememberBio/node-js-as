@@ -55,6 +55,7 @@ const updateUser = async(id, updateduser) => {
 const updatePassword = async(id, password) => {
     try {
         let user = await User.findByIdAndUpdate(id, { password:password }, { new: false });
+        console.log(password);
         return user;
     } catch (error) {
         console.log(error);
