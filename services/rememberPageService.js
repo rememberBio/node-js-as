@@ -6,8 +6,9 @@ const createOrUpdateRememberPage = async(rememebrPage,user) => {
         console.log("update remember page");
         //console.log(rememebrPage);
         rememberPageCreated = await RememberPage.findOne({_id: rememebrPage._id});
+        if(!rememberPageCreated) throw new Error('Invalid id of rp');
         await rememberPageCreated.update(rememebrPage);
-        //console.log(rememberPageCreated);
+        rememberPageCreated = await RememberPage.findOne({_id: rememebrPage._id});
     } else {
         console.log("create remember page")
         if(!rememebrPage.pageManager) rememebrPage.pageManager = user._id;
