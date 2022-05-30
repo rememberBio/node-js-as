@@ -14,8 +14,18 @@ const createOrUpdateRememberPage = async(rememebrPage,user) => {
         if(!rememebrPage.pageManager) rememebrPage.pageManager = user._id;
         rememberPageCreated = await RememberPage.create(rememebrPage);
     }
+    console.log('rp id: ',rememberPageCreated._id);
+    
     return rememberPageCreated;
 };
+
+const getById = async(rememberPageId,user) => {
+    let rememberPage = await RememberPage.findById(rememberPageId);
+    if(!rememberPage) throw new Error('There are no rp with this id');
+    if( rememberPage.pageManager && rememberPage.pageManager.toString() != user._id ) throw new Error('User is not allowed to edit this page');
+    return rememberPage;
+}
 module.exports = {
-    createOrUpdateRememberPage
+    createOrUpdateRememberPage,
+    getById
 };
