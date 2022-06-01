@@ -3,8 +3,8 @@ const router = require("express").Router();
 //s3
 const aws = require('aws-sdk')
 const Busboy = require('busboy');
-const AWSAccessKeyId = "AKIA4WYSJE63CNR6ERF2"
-const AWSSecretKey = "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"
+const AWSAccessKeyId = "AKIA4WYSJE63IHO2K42I"
+const AWSSecretKey = "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"
 const AWSRegion = "us-east-1"
 
 const s3 = new aws.S3({
