@@ -1,18 +1,19 @@
 const router = require("express").Router();
+require('dotenv').config();
 
 //s3
 const aws = require('aws-sdk')
 const Busboy = require('busboy');
-const AWSAccessKeyId = ""
-const AWSSecretKey = ""
-const AWSRegion = ""
+const AWSAccessKeyId =  process.env.AWSAccessKeyId
+const AWSSecretKey =  process.env.AWSSecretKey
+const AWSRegion = process.env.AWSRegion
 
 const s3 = new aws.S3({
     accessKeyId: AWSAccessKeyId,
     secretAccessKey: AWSSecretKey
 })
 
-const AWSBucket = "remember-create-page";
+const AWSBucket = process.env.AWSBucket;
 
 
 const uploadFile = async(req, res) => {
