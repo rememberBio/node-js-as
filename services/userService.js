@@ -1,45 +1,25 @@
 const { Error } = require("mongoose");
 const User = require("../models/user");
+const RememberPage = require("../models/rememberPage");
 
 //add new user to the users collection in the database
 const createUser = async(newUser) => {
+    var user = await User.findOne({email:newUser.email});
+    if(user) {
+        if(!user.isActive) {
+            return 'userNotActive';
+        } 
+    }
+   
     const userCreated = await User.create(newUser);
     return userCreated;
 };
-// get user by _id
-const getUserById = async(id) => {
-    try {
-        return await User.findById(id);
-    } catch (error) {
-        console.log(error);
-    }
-};
 
 // get user by the unique email
-const getUserByEmailAndPassword = async(email,password) => {
+const getUserByEmail = async(email) => {
     let user =  await User.findOne({ email: email  });
-    if(user) {
-        if(user.checkPassword(password)) return user;
-        else throw new Error("The password is incorect");
-    } else throw new Error("There are no user with this email");
-};
-// remove user from the users collection by authorized user
-const deleteUser = async(user) => {
-    try {
-        return await User.deleteOne({ _id: user._id });
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-//get users collection
-const getUsersList = async() => {
-    try {
-        let users = await User.find({})
-        return users
-    } catch (error) {
-        console.log(error);
-    }
+    if(!user) throw new Error("There are no user with this email");
+    return user;
 };
 //update user details
 const updateUser = async(id, updateduser) => {
@@ -50,15 +30,7 @@ const updateUser = async(id, updateduser) => {
         console.log(error);
     }
 };
-//update user details
-const updatePassword = async(id, password) => {
-    try {
-        let user = await User.findByIdAndUpdate(id, { password:password }, { new: true });
-        return user;
-    } catch (error) {
-        console.log(error);
-    }
-};
+
 //update user active status  by email address
 const updateUserStatus = async(email, active) => {
     try {
@@ -85,14 +57,19 @@ const updateUserRememberPage = async (rpId,user,permission = 'pageManager' ) => 
         await user.update({ rememberPages:rememberPages }, { new: false });
     }
 }
+const getUserRp = async(user) => {
+    let rememberPages = user.rememberPages;
+    if(rememberPages.length) {
+        let rememberPage = await RememberPage.findById(rememberPages[rememberPages.length-1].page);
+        return rememberPage;
+    } else return null;
+};
+
 module.exports = {
     updateUserRememberPage,
-    getUserById,
     createUser,
-    deleteUser,
-    getUsersList,
     updateUser,
     updateUserStatus,
-    updatePassword,
-    getUserByEmailAndPassword
+    getUserByEmail,
+    getUserRp
 };

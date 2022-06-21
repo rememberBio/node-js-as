@@ -1,6 +1,7 @@
 var express = require('express');
 var server = express();
 const config = require("./config.js");
+require('dotenv').config();
 
 const log = require('morgan');
 const logger = require('./lib/logger');
@@ -10,19 +11,7 @@ var corsOptions = {
 };
 const cors = require("cors");
 
-var passport = require('passport');
-require('./initializers/passport');
-
 const bodyParser = require("body-parser");
-
-var cookieSession = require('cookie-session')
-server.use(cookieSession({
-  name: 'session',
-  secret: 'rememberuYEc2B',
-}));
-
-server.use(passport.initialize());
-server.use(passport.session());
 
 server.use(cors());
 server.use(bodyParser.json());

@@ -1,11 +1,12 @@
 
 const WPAPI = require('wpapi');
+require('dotenv').config();
 const convertNodeObjToWpRestObj = require('../lib/functions/convertNodeObjToWpRestObj');
 
 var wp = new WPAPI({
     endpoint: 'https://remember.bio/wp-json',
     username: 'i@shal3v.com',
-    password: 'QNk7 FpNr sjBB Z6ft V5gt A7oR'
+    password: process.env.WpPassword
 });
 
 wp.rpResource = wp.registerRoute( 'wp/v2', '/remember_page', {
