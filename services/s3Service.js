@@ -53,7 +53,7 @@ const uploadFile = async(req, res) => {
                     console.log("error in upload to s3");
                     return res.status(500).send("Error in upload to s3");
                 } else {
-                    res.send({ file: 'https://remember-create-page.s3.amazonaws.com/' + s3res.Key, status: 'success', msg: 'Image successfully uploaded.' });
+                    res.send({ file: 'https://remember-app-assets.s3.amazonaws.com/' + s3res.Key, status: 'success', msg: 'Image successfully uploaded.' });
                 }
             });
 
@@ -70,7 +70,7 @@ const removeFile = async function(req, res) {
         let fileUrl = req.body.fileUrl;
         if(!fileUrl) throw new Error('There are no file');
 
-        fileUrl = fileUrl.replace('https://remember-create-page.s3.amazonaws.com/','');
+        fileUrl = fileUrl.replace('https://remember-app-assets.s3.amazonaws.com/','');
 
         //  sending buffer data to s3.
         s3.deleteObject({
@@ -100,7 +100,7 @@ const removeFiles = async function(req, res) {
 
         for (let index = 0; index < filesUrl.length; index++) {
             let fileUrl = filesUrl[index];
-            filesUrl[index] = fileUrl.replace('https://remember-create-page.s3.amazonaws.com/','');
+            filesUrl[index] = fileUrl.replace('https://remember-app-assets.s3.amazonaws.com/','');
         }
 
         const objects = filesUrl.map(key => ({ Key: key }));
